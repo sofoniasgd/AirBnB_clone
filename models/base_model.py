@@ -2,24 +2,51 @@
 """Base model module
     contains BaseModel class
 """
-import uuid
+
+from uuid import uuid4
 from datetime import datetime
 
+
 class BaseModel:
-    """ Defines a Base class 
+    """ Defines a Base class
     it defines all common attributes for all other classes
     """
-    def __init__(self, id, created_at, updated_at):
+    def __init__(self, id=None, created_at=None, updated_at=None):
         """init method for BaseModel class
-        
+
         initializes instance attributes
-        
+
         Args:
-            id (): 
+            id ():
             created_at ()
             updated_at ()
-        
+
         """
-        self.id = uuid.uuid4()
+        self.id = str(uuid4())
         self.created_at = datetime.now()
         self.updated_at = datetime.now()
+
+
+    def __str__(self):
+        """str() method to display specific text"""
+
+        # get classname
+        classn = str(self.__class__.__name__)
+        # format string: [<class name>] (<self.id>) <self.__dict__>
+        string = "[{}] ({}) {}".format(classn, self.id, str(self.__dict__))
+        print(string)
+        return string
+
+    def save(self):
+        """updates the public instance attribute
+        i.e "updated_at" with the current datetime
+        """
+        self.updated_at = datetime.now()
+
+    to_dict(self):
+        """returns a dictionary
+        containing all keys/values of __dict__ of the instance
+        """
+
+        
+
