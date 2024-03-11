@@ -33,6 +33,21 @@ class TestBaseModel(unittest.TestCase):
         self.assertIsInstance(controlobject.updated_at, datetime.datetime)
 
 
+class TestStr(unittest.TestCase):
+    """test class for __str__
+    __str__: should print:
+        [<class name>] (<self.id>) <self.__dict__>
+    """
+
+    def test_str(self):
+        """test the __str__ method"""
+        obj = BaseModel()
+        string = str(obj)
+        self.assertIn('id', string)
+        self.assertIn('created_at', string)
+        self.assertIn('updated_at', string)
+
+
 class Testsave(unittest.TestCase):
     """Test calss for save method"""
 
