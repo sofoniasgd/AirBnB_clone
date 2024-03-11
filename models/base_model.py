@@ -48,6 +48,11 @@ class BaseModel:
         dictionary = self.__dict__
         dictionary['__class__'] = self.__class__.__name__
         # format for dates: %Y-%m-%dT%H:%M:%S.%f then convert to string
-        dictionary['created_at'] = str(self.created_at.isoformat())
-        dictionary['updated_at'] = str(self.updated_at.isoformat())
+        created = self.created_at.isoformat()
+        # print(type(created))
+        # print(created.isoformat())
+        # print(type(created.isoformat()))
+        updated = self.updated_at.isoformat()
+        dictionary['created_at'] = created
+        dictionary['updated_at'] = updated
         return dictionary
