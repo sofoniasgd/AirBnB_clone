@@ -26,7 +26,6 @@ class BaseModel:
         self.created_at = datetime.now()
         self.updated_at = datetime.now()
 
-
     def __str__(self):
         """str() method to display specific text"""
 
@@ -48,8 +47,7 @@ class BaseModel:
         """
         dictionary = self.__dict__
         dictionary['__class__'] = self.__class__.__name__
+        # format for dates: %Y-%m-%dT%H:%M:%S.%f then convert to string
         dictionary['created_at'] = str(self.created_at.isoformat())
         dictionary['updated_at'] = str(self.updated_at.isoformat())
         return dictionary
-        
-
