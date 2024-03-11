@@ -34,7 +34,6 @@ class BaseModel:
         classn = str(self.__class__.__name__)
         # format string: [<class name>] (<self.id>) <self.__dict__>
         string = "[{}] ({}) {}".format(classn, self.id, str(self.__dict__))
-        print(string)
         return string
 
     def save(self):
@@ -43,10 +42,14 @@ class BaseModel:
         """
         self.updated_at = datetime.now()
 
-    to_dict(self):
+    def to_dict(self):
         """returns a dictionary
         containing all keys/values of __dict__ of the instance
         """
-
+        dictionary = self.__dict__
+        dictionary['__class__'] = self.__class__.__name__
+        dictionary['created_at'] = str(self.created_at.isoformat())
+        dictionary['updated_at'] = str(self.updated_at.isoformat())
+        return dictionary
         
 
