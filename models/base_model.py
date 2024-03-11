@@ -11,20 +11,35 @@ class BaseModel:
     """ Defines a Base class
     it defines all common attributes for all other classes
     """
-    def __init__(self, id=None, created_at=None, updated_at=None):
-        """init method for BaseModel class
+    def __init__(self, *args, **kwargs):
+        """constructor for BaseModel
 
-        initializes instance attributes
-
-        Args:
-            id ():
-            created_at ()
-            updated_at ()
-
+        uses keyworded arguments to make instance attributes
+            * each key is an attribute name
+                !!except(__class__)!!
+            * each value of the key is now value of the attribute
+            * created_at and updated_at should be converted to
+                datetime objects from string
+        if no argument dict passed then use default instance attributes
+            Attributes:
+                id (str):
+                created_at (datetime)
+                updated_at (datetime)
         """
-        self.id = str(uuid4())
-        self.created_at = datetime.now()
-        self.updated_at = datetime.now()
+        if kwargs:
+            for key, value in kwargs.items():
+                if key == "__class__":
+                    continue
+                # convert time attribes to datetime objects
+                if key == "created_at" or key == "updated_at":
+                    setattr(self, key, datetime.fromisoformat(value))
+                else:
+                    setattr(self, key, value)
+
+        else:
+            self.id = str(uuid4())
+            self.created_at = datetime.now()
+            self.updated_at = datetime.now()
 
     def __str__(self):
         """str() method to display specific text"""

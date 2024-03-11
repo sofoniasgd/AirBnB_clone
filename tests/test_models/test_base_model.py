@@ -8,7 +8,7 @@
 """
 
 import unittest
-import datetime
+from datetime import datetime
 import time
 from models.base_model import BaseModel
 
@@ -16,8 +16,28 @@ from models.base_model import BaseModel
 class TestBaseModel(unittest.TestCase):
     """Test class for BaseModel class"""
 
-    def test_instantiation_types(self):
+    def test_instantiation_kwargs(self):
+        """test types of instance attributes in BaseModel
+            when attribute dictionary(**kwargs) is passed
+        """
+        # create a dictionary
+        create = datetime.now()
+        create = datetime.isoformat(create)
+        update = datetime.now()
+        update = datetime.isoformat(update)
+        test_dict = {'id': '1a2b3c', 'name': 'sofonias', 'age': 27}
+        test_dict['created_at'] = create
+        test_dict['updated_at'] = update
+
+        obj = BaseModel(**test_dict)
+        self.assertEqual(obj.name, 'sofonias')
+        self.assertIsInstance(obj.id, str)
+        self.assertIsInstance(obj.created_at, datetime)
+        self.assertIsInstance(obj.updated_at, datetime)
+
+    def test_instantiation_no_kwargs(self):
         """check types of instance attributes in BaseModel
+            when no argument dictionary is passed
             attributes to check:
                 id (str)
                 created_at (datetime)
@@ -29,8 +49,8 @@ class TestBaseModel(unittest.TestCase):
         # test types and id uniqueness
         self.assertNotEqual(controlobject.id, object1.id)
         self.assertIsInstance(controlobject.id, str)
-        self.assertIsInstance(controlobject.created_at, datetime.datetime)
-        self.assertIsInstance(controlobject.updated_at, datetime.datetime)
+        self.assertIsInstance(controlobject.created_at, datetime)
+        self.assertIsInstance(controlobject.updated_at, datetime)
 
 
 class TestStr(unittest.TestCase):
