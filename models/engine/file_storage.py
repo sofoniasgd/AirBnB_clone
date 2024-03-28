@@ -22,7 +22,7 @@ class FileStorage():
 
     def all(self):
         """returns the dictionary __objects."""
-        return self.__objects
+        return FileStorage.__objects
 
     def new(self, obj):
         """sets in __objects the obj with key <obj class name>.id"""
@@ -30,13 +30,7 @@ class FileStorage():
         key = str(obj.__class__.__name__)
         key += "." + obj.id
         # print("|||key is=>{}|||".format(key))
-        json_of_obj = obj.to_dict()
-        FileStorage.__objects[key] = json_of_obj
-        for key, value in FileStorage.__objects.items():
-            print("<<key={}>>".format(key))
-            for key2, value2 in value.items():
-                print("|dict key={}|type={}|value={}|".format(key2, type(value2), value2))
-        ###
+        FileStorage.__objects[key] = obj
 
     def save(self):
         """serializes __objects to the JSON file
@@ -45,16 +39,21 @@ class FileStorage():
         # check if file name attribute exists
         # if not FileStorage.__file_path:
         #   return
-        
+
         # serialize __objects to file
         # with open(FileStorage.__file_path, 'w') as jfile:
         #  json.dump(FileStorage.__objects, jfile)
+        obj_dict = FileStorage.__objects
+        json_dict = {}
+        for key, value in obj_dict.items():
+            json_dict[key] = value.to_dict()
+
         try:
             jfile = open(FileStorage.__file_path, mode='w', encoding='utf-8')
         except OSError:
             return
         else:
-            json.dump(FileStorage.__objects, jfile)
+            json.dump(json_dict, jfile)
             jfile.close()
 
     def reload(self):
@@ -63,21 +62,29 @@ class FileStorage():
         else, do nothing
         if file doesnt exist no exception should be raised
         """
+        from models.base_model import BaseModel
         # check if file name attribute exists
         if not FileStorage.__file_path:
             return
-        # check if file exists
-        # filexists = os.path.isfile(FileStorage.__file_path)
-        # if not filexists:
-        #   return
-        # with open(FileStorage.__file_path, 'r') as jfile:
-        #   FileStorage.__objects = json.load(jfile)
-        
+        # open file and load to dictionary
+        path = FileStorage.__file_path
         try:
             try:
-                jfile = open(FileStorage.__file_path, mode='r', encoding='utf-8')
+                jfile = open(path, mode='r', encoding='utf-8')
             except FileNotFoundError:
                 return
-            FileStorage.__objects = json.load(jfile)
+            json_dict = json.load(jfile)
         except JSONDecodeError:
             jfile.close()
+        # deserialize =class'str'>>class'BaseModel' into class'BaseModel'
+        for key, value in json_dict.items():
+            obj = value
+            o_type = ""
+            # get object type from __class__ attribute
+            for att_type, att_name in obj.items():
+                if att_type == '__class__':
+                    o_type = att_name
+                    break
+            # create object creatrion expression and use eval()
+            code = o_type + '(**obj)'
+            FileStorage.__objects[key] = eval(code)

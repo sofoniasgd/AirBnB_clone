@@ -45,7 +45,6 @@ class BaseModel:
             # !! calling new(self) of storage if new instance
             storage.new(self)
 
-
     def __str__(self):
         """str() method to display specific text"""
 
