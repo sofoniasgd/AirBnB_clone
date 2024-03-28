@@ -6,6 +6,8 @@
 from uuid import uuid4
 from datetime import datetime
 
+from models import storage
+
 
 class BaseModel:
     """ Defines a Base class
@@ -40,6 +42,9 @@ class BaseModel:
             self.id = str(uuid4())
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
+            # !! calling new(self) of storage if new instance
+            storage.new(self)
+
 
     def __str__(self):
         """str() method to display specific text"""
@@ -55,6 +60,8 @@ class BaseModel:
         i.e "updated_at" with the current datetime
         """
         self.updated_at = datetime.now()
+        # !! calling save(self) of storage !!
+        storage.save()
 
     def to_dict(self):
         """returns a dictionary
