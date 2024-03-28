@@ -22,12 +22,15 @@ class TestFileStorage(unittest.TestCase):
     """Test class for FileStorage class"""
 
     file_path = "file.json"
-    storage._FileStorage__objects.clear()
 
     def test_all(self):
         """test contents of __objects dictionary
             with and without objects
         """
+        try:
+            storage._FileStorage__objects.clear()
+        except:
+            pass
         self.assertEqual(storage.all(), {})
         test_obj = BaseModel()
         obj_id = str("{}.{}".format(test_obj.__class__.__name__, test_obj.id))
@@ -47,16 +50,16 @@ class TestFileStorage(unittest.TestCase):
             object_dict[key] = BaseModel()
         self.assertEqual(len(storage.all()), 3)
 
-    try:
-        os.remove(file_path)
-    except:
-        pass
 
     def test_save(self):
         """test save() method
         create objects, save and check file
         """
         file_path = "file.json"
+        try:
+            os.remove(file_path)
+        except:
+            pass
         self.assertFalse(os.path.exists(file_path))
         storage.save()
         self.assertTrue(os.path.exists(file_path))
