@@ -9,6 +9,12 @@ class HBNBCommand(cmd.Cmd):
 
     prompt = '(hbnb) '
 
+    def emptyline(self):
+        pass
+
+    def default(self):
+        pass
+
     def do_quit(self, line):
         return True
 
