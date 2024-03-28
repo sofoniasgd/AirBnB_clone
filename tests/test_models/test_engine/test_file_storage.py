@@ -85,3 +85,8 @@ class TestFileStorage(unittest.TestCase):
         with open(file_path, 'r') as jfile:
             j_dict = json.load(jfile)
         self.assertNotEqual(j_dict, {})
+
+    try:
+        os.remove(file_path)
+    except:
+        pass

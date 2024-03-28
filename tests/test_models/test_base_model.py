@@ -11,6 +11,7 @@ import unittest
 from datetime import datetime
 import time
 from models.base_model import BaseModel
+from models.engine.file_storage import storage
 
 
 class TestBaseModel(unittest.TestCase):
@@ -107,4 +108,4 @@ class Test_to_dict(unittest.TestCase):
         keys = dictionary.keys()
         self.assertIn('fname', keys)
         self.assertIn('mname', keys)
-        self.assertIn('lname', keys)
+        self.assertIn('lname', keys) 
