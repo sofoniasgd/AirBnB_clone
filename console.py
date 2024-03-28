@@ -1,8 +1,11 @@
 #!/usr/bin/python3
+"""Console interface module"""
+
 import cmd
 
 
 class HBNBCommand(cmd.Cmd):
+    """cmd interface for the project."""
 
     prompt = '(hbnb) '
 
