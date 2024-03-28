@@ -28,15 +28,13 @@ class BaseModel:
                 created_at (datetime)
                 updated_at (datetime)
         """
-        if kwargs:
+        if kwargs is not None and kwargs != {}:
             for key, value in kwargs.items():
-                if key == "__class__":
-                    continue
                 # convert time attribes to datetime objects
                 if key == "created_at" or key == "updated_at":
-                    setattr(self, key, datetime.fromisoformat(value))
+                    self.__dict__[key] = datetime.fromisoformat(value)
                 else:
-                    setattr(self, key, value)
+                    self.__dict__[key] = kwargs[key]
 
         else:
             self.id = str(uuid4())
@@ -49,9 +47,9 @@ class BaseModel:
         """str() method to display specific text"""
 
         # get classname
-        classn = str(self.__class__.__name__)
+        classn = self.__class__.__name__
         # format string: [<class name>] (<self.id>) <self.__dict__>
-        string = "[{}] ({}) {}".format(classn, self.id, str(self.__dict__))
+        string = "[{}] ({}) {}".format(classn, self.id, self.__dict__)
         return string
 
     def save(self):
@@ -66,14 +64,9 @@ class BaseModel:
         """returns a dictionary
         containing all keys/values of __dict__ of the instance
         """
-        dictionary = self.__dict__
-        dictionary['__class__'] = self.__class__.__name__
+        dictionary = self.__dict__.copy()
+        dictionary["__class__"] = self.__class__.__name__
         # format for dates: %Y-%m-%dT%H:%M:%S.%f then convert to string
-        created = self.created_at.isoformat()
-        # print(type(created))
-        # print(created.isoformat())
-        # print(type(created.isoformat()))
-        updated = self.updated_at.isoformat()
-        dictionary['created_at'] = created
-        dictionary['updated_at'] = updated
+        dictionary["created_at"] = dictionary["created_at"].isoformat()
+        dictionary["updated_at"] = dictionary["updated_at"].isoformat()
         return dictionary
