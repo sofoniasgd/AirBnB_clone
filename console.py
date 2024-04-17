@@ -3,6 +3,7 @@
 
 import cmd
 from models.base_model import BaseModel
+from models import storage
 
 
 class HBNBCommand(cmd.Cmd):
@@ -31,6 +32,7 @@ class HBNBCommand(cmd.Cmd):
     def do_create(self, line):
         if (line == ""):
             print("** class name missing  **")
+        # !!!!!!!!!!!!!!!!! dosesnt search for classes
         elif (line != "BaseModel"):
             print("** class doesn't exist **")
         else:
@@ -40,19 +42,24 @@ class HBNBCommand(cmd.Cmd):
 
     def do_show(self, line):
         if (line == ""):
-            print("** class name missing  **")
-        else:
-            words = line.split()
+            print("** class name missing  **")        
+        words = line.split()
         cls = words[0]
         obj_id = words[1]
+        found_obj = None
+        if (obj_id == ""):
+            print("** instance id missing  **")
+        obj_dict = storage.all()
         print("class={} id= {}".format(cls, obj_id))
+        for key, value in obj_dict.items():
+            if (key == cls):
+                found_obj = value
+                break
         if (cls != "BaseModel"):
             print("** class doesn't exist **")
-        elif (obj_id == ""):
-            print("** instance id missing  **")
         print(cls.obj_id)
-        # elif (cls.obj_id is None):
-        #     print("** no instance found **")
+            # elif (cls.obj_id is None):
+            #     print("** no instance found **")
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
