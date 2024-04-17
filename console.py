@@ -27,6 +27,8 @@ class HBNBCommand(cmd.Cmd):
     def help_EOF(self):
         print("EOF to exit the program")
 
+    # commands
+    def do_create(self, line):
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
