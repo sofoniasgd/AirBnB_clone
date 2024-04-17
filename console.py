@@ -42,24 +42,38 @@ class HBNBCommand(cmd.Cmd):
 
     def do_show(self, line):
         if (line == ""):
-            print("** class name missing  **")        
+            print("** class name missing  **")
+            return
         words = line.split()
         cls = words[0]
-        obj_id = words[1]
         found_obj = None
-        if (obj_id == ""):
+        if (len(words) != 2):
             print("** instance id missing  **")
+            return
+        # now class name is 'cls' and object id is 'obj_id'
+        obj_id = words[1]
+        # get dict of all objects
         obj_dict = storage.all()
-        print("class={} id= {}".format(cls, obj_id))
-        for key, value in obj_dict.items():
-            if (key == cls):
-                found_obj = value
-                break
-        if (cls != "BaseModel"):
+        obj_key = None
+        classf = None
+        for key in obj_dict.keys():
+            cls_name = key.split(".")[0]
+            if (cls_name == cls):
+                # class found !!
+                classf = 1
+                if (key.split(".")[1] == obj_id):
+                    # object found !!
+                    obj_key = key
+                    break
+        if (classf is None):
             print("** class doesn't exist **")
-        print(cls.obj_id)
-            # elif (cls.obj_id is None):
-            #     print("** no instance found **")
+            return
+        elif (obj_key is None):
+            print("** no instance found **")
+            return
+        else:
+            obj = obj_dict[obj_key]
+            print(obj)
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()

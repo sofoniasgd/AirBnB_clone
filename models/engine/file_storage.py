@@ -84,6 +84,7 @@ class FileStorage():
             for att_type, att_name in obj.items():
                 if att_type == '__class__':
                     o_type = att_name
+                    obj.pop("__class__")
                     break
             # create object creatrion expression and use eval()
             code = o_type + '(**obj)'
