@@ -42,7 +42,7 @@ class HBNBCommand(cmd.Cmd):
 
     def do_show(self, line):
         if (line == ""):
-            print("** class name missing  **")
+            print("** class name missing **")
             return
         words = line.split()
         cls = words[0]
@@ -158,6 +158,7 @@ class HBNBCommand(cmd.Cmd):
                 object_to_update = value
         if object_to_update is None:
             print("** no instance found **")
+            return
         if len(words) < 3:
             print("** attribute name missing **")
             return
