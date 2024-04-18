@@ -15,6 +15,42 @@ from models import storage
 class TestUser(unittest.TestCase):
     """Test class for user class"""
 
+    def test_email(self):
+        """ test class attribute email"""
+
+        obj = User()
+        self.assertEqual(obj.email, "")
+        email = "test@test.com"
+        obj.email = email
+        self.assertEqual(obj.email, email)
+
+    def test_password(self):
+        """ test class attribute password"""
+
+        obj = User()
+        self.assertEqual(obj.password, "")
+        psw = "p@55w0rd"
+        obj.password = psw
+        self.assertEqual(obj.password, psw)
+
+    def test_first_name(self):
+        """ test class attribute first_name"""
+
+        obj = User()
+        self.assertEqual(obj.first_name, "")
+        fname = "fname"
+        obj.first_name = fname
+        self.assertEqual(obj.first_name, fname)
+
+    def test_last_name(self):
+        """ test class attribute last_name"""
+
+        obj = User()
+        self.assertEqual(obj.last_name, "")
+        lname = "lame"
+        obj.last_name = lname
+        self.assertEqual(obj.last_name, lname)
+
     def test_instantiation_kwargs(self):
         """test types of instance attributes in User
             when attribute dictionary(**kwargs) is passed
