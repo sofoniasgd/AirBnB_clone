@@ -12,6 +12,7 @@ from models.base_model import BaseModel
 from models.city import City
 from models import storage
 
+
 class TestCity(unittest.TestCase):
     """Test class for city class"""
 
@@ -48,12 +49,12 @@ class TestCity(unittest.TestCase):
         test_dict['state_id'] = "soff"
         test_dict['name'] = "dubb"
 
-
         obj = City(**test_dict)
         self.assertIsInstance(obj.created_at, datetime)
         self.assertIsInstance(obj.updated_at, datetime)
         self.assertEqual(obj.state_id, "soff")
         self.assertEqual(obj.name, "dubb")
+
 
 class TestStr(unittest.TestCase):
     """test class for __str__
@@ -68,4 +69,3 @@ class TestStr(unittest.TestCase):
         self.assertIn('id', string)
         self.assertIn('created_at', string)
         self.assertIn('updated_at', string)
-

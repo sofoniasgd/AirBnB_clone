@@ -12,6 +12,7 @@ from models.base_model import BaseModel
 from models.review import Review
 from models import storage
 
+
 class TestReview(unittest.TestCase):
     """Test class for review class"""
 
@@ -58,7 +59,6 @@ class TestReview(unittest.TestCase):
         test_dict['user_id'] = "usr01"
         test_dict['text'] = "goodreview"
 
-
         obj = Review(**test_dict)
         self.assertEqual(obj.name, 'sofonias')
         self.assertEqual(obj.age, 27)
@@ -67,6 +67,7 @@ class TestReview(unittest.TestCase):
         self.assertEqual(obj.place_id, "add01")
         self.assertEqual(obj.user_id, "usr01")
         self.assertEqual(obj.text, "goodreview")
+
 
 class TestStr(unittest.TestCase):
     """test class for __str__
@@ -81,4 +82,3 @@ class TestStr(unittest.TestCase):
         self.assertIn('id', string)
         self.assertIn('created_at', string)
         self.assertIn('updated_at', string)
-

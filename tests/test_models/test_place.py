@@ -13,6 +13,7 @@ from models.base_model import BaseModel
 from models.place import Place
 from models import storage
 
+
 class TestPlace(unittest.TestCase):
     """Test class for place class"""
 
@@ -139,7 +140,6 @@ class TestPlace(unittest.TestCase):
         test_dict['longitude'] = 30.0
         test_dict['amenity_ids'] = ["par01", "por01", "jac01"]
 
-
         obj = Place(**test_dict)
         self.assertEqual(obj.fname, 'sofonias')
         self.assertEqual(obj.age, 27)
@@ -157,6 +157,7 @@ class TestPlace(unittest.TestCase):
         self.assertEqual(obj.longitude, 30.0)
         self.assertEqual(obj.amenity_ids, ["par01", "por01", "jac01"])
 
+
 class TestStr(unittest.TestCase):
     """test class for __str__
      __str__: should print:
@@ -170,4 +171,3 @@ class TestStr(unittest.TestCase):
         self.assertIn('id', string)
         self.assertIn('created_at', string)
         self.assertIn('updated_at', string)
-

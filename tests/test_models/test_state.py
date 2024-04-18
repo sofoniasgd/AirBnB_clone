@@ -13,6 +13,7 @@ from models.base_model import BaseModel
 from models.state import State
 from models import storage
 
+
 class TestState(unittest.TestCase):
     """Test class for state class"""
 
@@ -39,12 +40,12 @@ class TestState(unittest.TestCase):
         test_dict['updated_at'] = update
         test_dict['name'] = "dubb"
 
-
         obj = State(**test_dict)
         self.assertEqual(obj.age, 27)
         self.assertIsInstance(obj.created_at, datetime)
         self.assertIsInstance(obj.updated_at, datetime)
         self.assertEqual(obj.name, "dubb")
+
 
 class TestStr(unittest.TestCase):
     """test class for __str__
@@ -59,4 +60,3 @@ class TestStr(unittest.TestCase):
         self.assertIn('id', string)
         self.assertIn('created_at', string)
         self.assertIn('updated_at', string)
-

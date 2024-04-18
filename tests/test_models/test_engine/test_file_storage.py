@@ -30,7 +30,7 @@ class TestFileStorage(unittest.TestCase):
         """
         try:
             storage._FileStorage__objects.clear()
-        except:
+        except AttributeError:
             pass
         self.assertEqual(storage.all(), {})
         # BaseModel classes
@@ -64,7 +64,6 @@ class TestFileStorage(unittest.TestCase):
             object_dict[key] = User()
         self.assertEqual(len(storage.all()), 5)
 
-
     def test_save(self):
         """test save() method
         create objects, save and check file
@@ -72,7 +71,7 @@ class TestFileStorage(unittest.TestCase):
         file_path = "file.json"
         try:
             os.remove(file_path)
-        except:
+        except OSError:
             pass
         self.assertFalse(os.path.exists(file_path))
         storage.save()
@@ -85,7 +84,7 @@ class TestFileStorage(unittest.TestCase):
         try:
             storage.save()
             result = None
-        except:
+        except Exception:
             result = "error"
         self.assertEqual(result, None)
 
@@ -102,5 +101,5 @@ class TestFileStorage(unittest.TestCase):
 
     try:
         os.remove(file_path)
-    except:
+    except OSError:
         pass

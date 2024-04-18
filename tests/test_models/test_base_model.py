@@ -108,4 +108,4 @@ class Test_to_dict(unittest.TestCase):
         keys = dictionary.keys()
         self.assertIn('fname', keys)
         self.assertIn('mname', keys)
-        self.assertIn('lname', keys) 
+        self.assertIn('lname', keys)

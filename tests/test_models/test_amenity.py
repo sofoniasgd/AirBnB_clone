@@ -13,6 +13,7 @@ from models.base_model import BaseModel
 from models.amenity import Amenity
 from models import storage
 
+
 class TestAmenity(unittest.TestCase):
     """Test class for amenity class"""
 
@@ -39,11 +40,11 @@ class TestAmenity(unittest.TestCase):
         test_dict['updated_at'] = update
         test_dict['name'] = "dubb"
 
-
         obj = Amenity(**test_dict)
         self.assertIsInstance(obj.created_at, datetime)
         self.assertIsInstance(obj.updated_at, datetime)
         self.assertEqual(obj.name, "dubb")
+
 
 class TestStr(unittest.TestCase):
     """test class for __str__
@@ -58,4 +59,3 @@ class TestStr(unittest.TestCase):
         self.assertIn('id', string)
         self.assertIn('created_at', string)
         self.assertIn('updated_at', string)
-

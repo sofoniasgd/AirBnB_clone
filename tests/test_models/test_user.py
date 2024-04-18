@@ -12,6 +12,7 @@ from models.base_model import BaseModel
 from models.user import User
 from models import storage
 
+
 class TestUser(unittest.TestCase):
     """Test class for user class"""
 
@@ -68,7 +69,6 @@ class TestUser(unittest.TestCase):
         test_dict['first_name'] = "soff"
         test_dict['last_name'] = "dubb"
 
-
         obj = User(**test_dict)
         self.assertEqual(obj.name, 'sofonias')
         self.assertEqual(obj.age, 27)
@@ -78,6 +78,7 @@ class TestUser(unittest.TestCase):
         self.assertEqual(obj.password, "lamepass")
         self.assertEqual(obj.first_name, "soff")
         self.assertEqual(obj.last_name, "dubb")
+
 
 class TestStr(unittest.TestCase):
     """test class for __str__
@@ -92,4 +93,3 @@ class TestStr(unittest.TestCase):
         self.assertIn('id', string)
         self.assertIn('created_at', string)
         self.assertIn('updated_at', string)
-
