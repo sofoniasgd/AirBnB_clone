@@ -153,7 +153,6 @@ class HBNBCommand(cmd.Cmd):
             print("** instance id missing **")
             return
         cls += "." + words[1]
-        print(cls)
         for key, value in objects.items():
             if (cls == key):
                 object_to_update = value
