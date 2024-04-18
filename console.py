@@ -16,7 +16,8 @@ class HBNBCommand(cmd.Cmd):
     """cmd interface for the project."""
 
     prompt = '(hbnb) '
-    classes = ("BaseModel", "User", "Place", "State", "City", "Amenity", "Review")
+    classes = ("BaseModel", "User", "Place", "State",
+               "City", "Amenity", "Review")
 
     def emptyline(self):
         pass
