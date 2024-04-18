@@ -1,58 +1,32 @@
 #!/usr/bin/python3
 """Defines Unit test module for amenity module
         i.e models/amenity.py
-    test classesi:
-    instantiation
+    test classes:
+        testAmenity
+        teststr
 """
 
 import unittest
 from datetime import datetime
 import time
 from models.base_model import BaseModel
-from models.amenity import User
+from models.amenity import Amenity
 from models import storage
 
-class TestUser(unittest.TestCase):
+class TestAmenity(unittest.TestCase):
     """Test class for amenity class"""
 
-    def test_email(self):
-        """ test class attribute email"""
+    def test_name(self):
+        """ test class attribute name"""
 
-        obj = User()
-        self.assertEqual(obj.email, "")
-        email = "test@test.com"
-        obj.email = email
-        self.assertEqual(obj.email, email)
-
-    def test_password(self):
-        """ test class attribute password"""
-
-        obj = User()
-        self.assertEqual(obj.password, "")
-        psw = "p@55w0rd"
-        obj.password = psw
-        self.assertEqual(obj.password, psw)
-
-    def test_first_name(self):
-        """ test class attribute first_name"""
-
-        obj = User()
-        self.assertEqual(obj.first_name, "")
-        fname = "fname"
-        obj.first_name = fname
-        self.assertEqual(obj.first_name, fname)
-
-    def test_last_name(self):
-        """ test class attribute last_name"""
-
-        obj = User()
-        self.assertEqual(obj.last_name, "")
+        obj = Amenity()
+        self.assertEqual(obj.name, "")
         lname = "lame"
-        obj.last_name = lname
-        self.assertEqual(obj.last_name, lname)
+        obj.name = lname
+        self.assertEqual(obj.name, lname)
 
     def test_instantiation_kwargs(self):
-        """test types of instance attributes in User
+        """test types of instance attributes in Amenity
             when attribute dictionary(**kwargs) is passed
         """
         # create a dictionary of attributes
@@ -60,24 +34,16 @@ class TestUser(unittest.TestCase):
         create = datetime.isoformat(create)
         update = datetime.now()
         update = datetime.isoformat(update)
-        test_dict = {'name': 'sofonias', 'age': 27}
+        test_dict = {}
         test_dict['created_at'] = create
         test_dict['updated_at'] = update
-        test_dict['email'] = "sof@ss.ss"
-        test_dict['password'] = "lamepass"
-        test_dict['first_name'] = "soff"
-        test_dict['last_name'] = "dubb"
+        test_dict['name'] = "dubb"
 
 
-        obj = User(**test_dict)
-        self.assertEqual(obj.name, 'sofonias')
-        self.assertEqual(obj.age, 27)
+        obj = Amenity(**test_dict)
         self.assertIsInstance(obj.created_at, datetime)
         self.assertIsInstance(obj.updated_at, datetime)
-        self.assertEqual(obj.email, "sof@ss.ss")
-        self.assertEqual(obj.password, "lamepass")
-        self.assertEqual(obj.first_name, "soff")
-        self.assertEqual(obj.last_name, "dubb")
+        self.assertEqual(obj.name, "dubb")
 
 class TestStr(unittest.TestCase):
     """test class for __str__
