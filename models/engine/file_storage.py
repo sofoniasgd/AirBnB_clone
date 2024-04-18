@@ -63,6 +63,7 @@ class FileStorage():
         if file doesnt exist no exception should be raised
         """
         from models.base_model import BaseModel
+        from models.user import User
         # check if file name attribute exists
         if not FileStorage.__file_path:
             return

@@ -15,6 +15,7 @@ import os
 import json
 import models
 from models.base_model import BaseModel
+from models.user import User
 from models import storage
 
 
@@ -32,23 +33,36 @@ class TestFileStorage(unittest.TestCase):
         except:
             pass
         self.assertEqual(storage.all(), {})
+        # BaseModel classes
         test_obj = BaseModel()
         obj_id = str("{}.{}".format(test_obj.__class__.__name__, test_obj.id))
         obj_dict = storage.all()
         key = next(iter(obj_dict))
         self.assertEqual(key, obj_id)
+        # User classes
+        test_obj2 = BaseModel()
+        obj_id2 = str("{}.{}".format(test_obj.__class__.__name__, test_obj.id))
+        obj_dict2 = storage.all()
+        key2 = next(iter(obj_dict2))
+        self.assertEqual(key2, obj_id2)
 
     def test_new(self):
         """check instance calls to FileStorage
-            when new objects of BaseModel are created
+            when new objects of the classes are created
         """
         # clear object dict, create objects
         storage._FileStorage__objects.clear()
         object_dict = {}
+        # BaseModel classes
         for i in range(3):
             key = "obj{}".format(i)
             object_dict[key] = BaseModel()
         self.assertEqual(len(storage.all()), 3)
+        # User classes
+        for i in range(2):
+            key = "obj{}".format(i)
+            object_dict[key] = User()
+        self.assertEqual(len(storage.all()), 5)
 
 
     def test_save(self):

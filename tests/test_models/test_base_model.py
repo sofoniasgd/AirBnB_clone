@@ -11,7 +11,7 @@ import unittest
 from datetime import datetime
 import time
 from models.base_model import BaseModel
-from models.engine.file_storage import storage
+from models import storage
 
 
 class TestBaseModel(unittest.TestCase):

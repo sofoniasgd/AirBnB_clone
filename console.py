@@ -3,6 +3,7 @@
 
 import cmd
 from models.base_model import BaseModel
+from models.user import User
 from models import storage
 
 
@@ -10,6 +11,7 @@ class HBNBCommand(cmd.Cmd):
     """cmd interface for the project."""
 
     prompt = '(hbnb) '
+    classes = ("BaseModel", "User")
 
     def emptyline(self):
         pass
@@ -32,11 +34,15 @@ class HBNBCommand(cmd.Cmd):
     def do_create(self, line):
         if (line == ""):
             print("** class name missing **")
-        # !!!!!!!!!!!!!!!!! dosesnt search for classes
-        elif (line != "BaseModel"):
+        # dosesnt search for classes
+        elif (line.split()[0] not in self.classes):
             print("** class doesn't exist **")
         else:
-            new_obj = BaseModel()
+            # get class object from class name using getattr
+            class_name = line.split()[0]
+            cls = globals()[class_name]
+            # create instance of the class and save it
+            new_obj = cls()
             new_obj.save()
             print(new_obj.id)
 
@@ -55,25 +61,20 @@ class HBNBCommand(cmd.Cmd):
         # get dict of all objects
         obj_dict = storage.all()
         obj_key = None
-        classf = None
-        for key in obj_dict.keys():
-            cls_name = key.split(".")[0]
-            if (cls_name == cls):
-                # class found !!
-                classf = 1
+        if cls in self.classes:
+            for key in obj_dict.keys():
                 if (key.split(".")[1] == obj_id):
                     # object found !!
                     obj_key = key
                     break
-        if (classf is None):
+            if (obj_key is None):
+                print("** no instance found **")
+                return
+        else:
             print("** class doesn't exist **")
             return
-        elif (obj_key is None):
-            print("** no instance found **")
-            return
-        else:
-            obj = obj_dict[obj_key]
-            print(obj)
+        obj = obj_dict[obj_key]
+        print(obj)
 
     def do_destroy(self, line):
         # empty command
@@ -92,40 +93,30 @@ class HBNBCommand(cmd.Cmd):
         # get dict of all objects
         obj_dict = storage.all()
         obj_key = None
-        classf = None
-        for key in obj_dict.keys():
-            cls_name = key.split(".")[0]
-            if (cls_name == cls):
-                # class found !!
-                classf = 1
+        if cls in self.classes:
+            for key in obj_dict.keys():
                 if (key.split(".")[1] == obj_id):
                     # object found !!
                     obj_key = key
                     break
-        if (classf is None):
+        else:
             print("** class doesn't exist **")
             return
-        elif (obj_key is None):
+        if (obj_key is None):
             print("** no instance found **")
             return
-        else:
-            # delete object and update json
-            del obj_dict[obj_key]
-            storage.save()
+        # delete object and update json
+        del obj_dict[obj_key]
+        storage.save()
 
     def do_all(self, line):
         objects = storage.all()
         object_list = []
-        class_list = []
-        # get class list
-        for key in objects.keys():
-            class_list.append(key.split(".")[0])
-
         for key, value in objects.items():
             if (line == ""):
                 object_list.append(str(value))
             else:
-                if (line.split()[0] == key.split(".")[0]):
+                if (line.split()[0] in self.classes):
                     object_list.append(str(value))
         if (len(object_list) == 0):
             print("** class doesn't exist **")
@@ -141,17 +132,14 @@ class HBNBCommand(cmd.Cmd):
         words = line.split()
         cls = words[0]
         objects = storage.all()
-        classes = []
         object_to_update = None
-        for key in objects.keys():
-            classes.append(key.split(".")[0])
-        if cls not in classes:
+        if cls not in self.classes:
             print("** class doesn't exist **")
             return
         # check for empty id
         if (len(words) < 2):
             print("** instance id missing **")
-            return
+            retur
         cls += "." + words[1]
         for key, value in objects.items():
             if (cls == key):
