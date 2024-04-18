@@ -102,7 +102,9 @@ class HBNBCommand(cmd.Cmd):
         obj_key = None
         if cls in self.classes:
             for key in obj_dict.keys():
-                if (key.split(".")[1] == obj_id):
+                class_name = key.split(".")[0]
+                object_name = key.split(".")[1]
+                if (class_name == cls and object_name == obj_id):
                     # object found !!
                     obj_key = key
                     break
