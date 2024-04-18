@@ -1,6 +1,6 @@
 #!/usr/bin/python3
-"""Defines Unit test module for user module
-        i.e models/user.py
+"""Defines Unit test module for amenity module
+        i.e models/amenity.py
     test classesi:
     instantiation
 """
@@ -9,11 +9,11 @@ import unittest
 from datetime import datetime
 import time
 from models.base_model import BaseModel
-from models.user import User
+from models.amenity import User
 from models import storage
 
 class TestUser(unittest.TestCase):
-    """Test class for user class"""
+    """Test class for amenity class"""
 
     def test_email(self):
         """ test class attribute email"""
