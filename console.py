@@ -162,7 +162,7 @@ class HBNBCommand(cmd.Cmd):
         if len(words) < 3:
             print("** attribute name missing **")
             return
-        if getattr(object_to_update, words[2], None) is None:
+        if len(words) < 4:
             print("** value missing **")
             return
         setattr(object_to_update, words[2], words[3])
