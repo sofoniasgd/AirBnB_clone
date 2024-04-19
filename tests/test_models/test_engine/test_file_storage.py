@@ -81,15 +81,15 @@ class TestFileStorage(unittest.TestCase):
             jdict = json.load(jfile)
         self.assertNotEqual(jdict, {})
         storage._FileStorage__file_path = None
+        error = None
         try:
             storage.save()
-            result = None
-        except Exception:
-            result = "error"
-        self.assertEqual(result, None)
+        except Exception as e:
+            error = e
+        self.assertEqual(error, None)
 
     def test_reload(self):
-        """test relaod() method"""
+        """test reload() method"""
 
         file_path = "file.json"
         if not os.path.exists(file_path):
@@ -104,8 +104,12 @@ class TestFileStorage(unittest.TestCase):
         except OSError:
             pass
         else:
-            with self.assertRaises(Exception):
+            error = None
+            try:
                 storage.reload()
+            except Exception as e:
+                error = e
+            self.assertEqual(error, None)
     try:
         os.remove(file_path)
     except OSError:

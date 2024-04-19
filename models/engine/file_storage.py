@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""File Serialization/Desialization."""
+"""File Serialization/Deserialization."""
 
 
 import json
