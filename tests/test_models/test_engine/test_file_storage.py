@@ -98,7 +98,14 @@ class TestFileStorage(unittest.TestCase):
         with open(file_path, 'r') as jfile:
             j_dict = json.load(jfile)
         self.assertNotEqual(j_dict, {})
-
+        # remove file and check if reload() produces exception
+        try:
+            os.remove(file_path)
+        except OSError:
+            pass
+        else:
+            with self.assertRaises(Exception):
+                storage.reload()
     try:
         os.remove(file_path)
     except OSError:
