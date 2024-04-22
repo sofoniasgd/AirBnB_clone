@@ -2,6 +2,7 @@
 """Console interface module"""
 
 import cmd
+import re
 from models.base_model import BaseModel
 from models.user import User
 from models.place import Place
@@ -18,6 +19,31 @@ class HBNBCommand(cmd.Cmd):
     prompt = '(hbnb) '
     classes = ("BaseModel", "User", "Place", "State",
                "City", "Amenity", "Review")
+    commands = ("all", "count", "destroy", "update")
+
+    def precmd(self, line):
+        """ preprocesses commandline to expand command set
+        """
+        # search for the alternate command style(class.command(options))
+        pattern = r'\w+\.\w+\((("[^"]*")(,\s*"[^"]*")*)?\)'
+        match = []
+        match = re.findall(pattern, line)
+        # if no match then return original line
+        if len(match) == 0:
+            return line
+        # split line into class name, command, argument string
+        line_words = line.split(".", 1)
+        class_name = line_words[0]
+        command_name = line_words[1].split("(")[0]
+        if (command_name == "all"):
+            command_name = "Instances"
+        args = line_words[1].split("(")[1]
+        args = args.replace(')', '')
+        args = args.replace(',', '')
+        args = args.replace('"', '')
+        # convert into primary command style(command class args)
+        new_line = command_name + " " + class_name + " " + args
+        return new_line
 
     def emptyline(self):
         pass
@@ -36,6 +62,24 @@ class HBNBCommand(cmd.Cmd):
 
     def help_EOF(self):
         print("EOF to exit the program")
+
+    def do_count(self, line):
+        """return instances of a class"""
+        if (line == ""):
+            print("** class name missing **")
+        # dosesnt search for classes
+        elif (line.split()[0] not in self.classes):
+            print("** class doesn't exist **")
+        else:
+            count = 0
+            words = line.split()
+            class_name = words[0]
+            obj_dict = storage.all()
+            for key in obj_dict.keys():
+                cls = key.split(".")[0]
+                if cls == class_name:
+                    count += 1
+        print(count)
 
     def do_create(self, line):
         if (line == ""):
@@ -64,6 +108,7 @@ class HBNBCommand(cmd.Cmd):
             return
         # now class name is 'cls' and object id is 'obj_id'
         obj_id = words[1]
+        obj_id = obj_id.replace('"', '')
         # get dict of all objects
         obj_dict = storage.all()
         obj_key = None
@@ -128,6 +173,21 @@ class HBNBCommand(cmd.Cmd):
             else:
                 if (line.split()[0] in self.classes):
                     object_list.append(str(value))
+        if (len(object_list) == 0):
+            print("** class doesn't exist **")
+            return
+        else:
+            print(object_list)
+
+    def do_Instances(self, line):
+        objects = storage.all()
+        object_list = []
+        words = line.split()
+        cls = words[0]
+        print("Instances")
+        for key, value in objects.items():
+            if (cls == key.split('.')[0]):
+                object_list.append(str(value))
         if (len(object_list) == 0):
             print("** class doesn't exist **")
             return
